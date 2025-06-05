@@ -1,7 +1,7 @@
 # Spring Boot Libary Assignment
 
 A school project built in Java, featuring a simple library REST API. Using Spring Boot, Spring Web, Spring Data JPA, SQLite and Maven
----
+
 
 ## Features
 
