@@ -2,7 +2,6 @@ package com.example.librarysystem.controller;
 
 import com.example.librarysystem.entity.Loan;
 import com.example.librarysystem.service.LoanService;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
