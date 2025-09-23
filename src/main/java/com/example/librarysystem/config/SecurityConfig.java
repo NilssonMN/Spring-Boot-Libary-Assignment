@@ -1,6 +1,5 @@
 package com.example.librarysystem.config;
 
-import com.example.librarysystem.Handler.CustomAccessDeniedHandler;
 import com.example.librarysystem.service.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,26 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final UserDetailServiceImpl userDetailsService;
-    private final AuthenticationSuccessHandler successHandler;
-    private final AuthenticationFailureHandler failureHandler;
-    private final CustomAccessDeniedHandler accessDeniedHandler;
 
-    public SecurityConfig(UserDetailServiceImpl userDetailsService,
-                          AuthenticationSuccessHandler successHandler,
-                          AuthenticationFailureHandler failureHandler,
-                          CustomAccessDeniedHandler accessDeniedHandler) {
+    public SecurityConfig(UserDetailServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.successHandler = successHandler;
-        this.failureHandler = failureHandler;
-        this.accessDeniedHandler = accessDeniedHandler;
     }
 
     @Bean
@@ -43,16 +31,9 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults()) // Enable Basic Auth for Postman
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .successHandler(successHandler)
-                        .failureHandler(failureHandler)
-                        .permitAll()
-                )
-                .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedHandler(accessDeniedHandler)
-                        .authenticationEntryPoint(accessDeniedHandler)
-                )
+
+                .formLogin(Customizer.withDefaults())
+
                 .userDetailsService(userDetailsService)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
